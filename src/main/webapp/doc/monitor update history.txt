@@ -1,0 +1,83 @@
+
+
+# 전역변수 appInfo.isViewInit 삽입
+뷰가 초기화 되었는지 여부 
+이 값은 initView() 함수에서  true 로 세팅 
+
+# initView
+this.appInfo.isViewInit = true 구문 추가 
+
+#getEventOnAgentList
+코드 수정 및 상태지속 시간 업데이트 타이머 추가 
+
+# initChart
+각 파이 차트의 크기, 보더, 배경색 변경  
+
+#monitor.jsp 
+id = group_pie_chart 인 div 의 패딩 제거 : 캔버스를 꽉 맞게 배치하기 위해서  
+
+# parseAgentListPacket
+ 
+# getEventOnAgentList 
+상태 지속 시간 추적 업데이트 코드 삽입
+
+#parseAgentListPacket 
+- 차트 크기 알맞게 조절 
+
+- initLeftTab
+뷰 초기화 여부에 따라 리턴 구문 추가 
+중복 tabs 메서도 호출 제거
+탭이 변경되었을 때 해당 그리드 상담원의 상태 시간을 즉시 갱신 코드 삽입 
+
+- CallQueued 패킷을 스킬 그룹별로 우선순위 정렬을 위해 관려 우선 순위 생성 코드 삽입 
+
+- 병목 현상은 initView 에서 발생 
+  뷰가 초기화 된 후,OCX 연결 및 관련 이벤트 처리를 진행하는 식으로 변경을 하는 것이 좋음 
+
+# parseCallQueuedPacket 
+수신된 CallQueuedPacket 을 스킬그룹 영문이름별 가중치 소팅 인덱스에 따라 정렬하는 코드 추가 
+
+# initLeftTab 
+각 스킬 그룹별로 데이타 그리드를 생성하는 방식에서 하나의 데이타 그리드로 각 상담그룹별로 filter하는 코드 변경 삽입
+탭 선택과 데이타 수신동기화를 위하여 탭 선택시 현재 탭 저장을 바로 실행하도록 변경
+
+#monitor.jsp 
+하나의 데이타 그리드로 각 스킬그룹별 상태를 필터링 해서 보여주기 위해서 html 구조 변경
+
+#initAgentStatusGrid
+하나의 데이타 그리드로 상담그룹별로 필터링해서 보여주기 위해서 관련 필터링 초기화 코드 삽입 
+상태 지속 시간 폰트 설정 변경 
+
+#updateAgentStatusGrid
+- 1개의 데이타 그리드로 상담그룹별로 필터링해서 보여주기 때문에 
+기존에 상담그룹별 데이타 그리드 업데이트 관련 코드를 제거 
+- 기타 다수 코드 변경
+- 해당 에이전트의 그리드 내에서 인덱스 구하는 방식 변경
+
+# initChart 
+각 파이 차트의 생성시 구분 및 배경색 변경 
+각 상단 전체 통계 부분의 차트에서 라벨별 value  색상을 조절할 수 있도록 코드 삽입
+
+#getEventOnAgentStateSummary 
+이 함수내에서 this.updateGroupStateSummary(); 호출 부분 삭제 
+
+
+
+#initAgentStatusGrid
+상태 지속시간 스타일러 추가 및 다른 부분 변경
+
+#parseCallQueuedPacket
+정렬 기능 추가 
+
+# getEventOnAgentList 
+상담원 상태 시간 추적 타이머를 제거하고 새로 생성하여, 아래의 updateStateLastingTime 함수를 주기적으로 
+호출하는 구문 추가 
+
+#updateStateLastingTime  함수추가
+주기별로(타이머를 통해)  상담원의 상태 시간을 추적, 변경 및 표시하는 함수 
+이 함수는 getEventOnAgentList 에서 타미머로 호출됨 
+해당 로우 전체를 갱신하는 방식에서 상태지속시간 셀만 변경하도록 수정 
+
+#initLeftTab
+해당 탭이 선택되고, 그리드의 필터링 작업이 끝났을 때 상태시간 변경 함수 호출 
+

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.woori.monitor.dao.mapper.MonitorInfoMapper">
+	<sql id ="monitorInfoWhereStatement">
+		<choose>
+			<when test="skillGroupKorName == null"> where ATEnterpriseName is not null order by AgentSkillOrder, AgentName </when>
+			<when test="skillGroupKorName != null"> where ATDescription = #{skillGroupKorName} order by AgentName </when>
+		</choose>
+	</sql>
+	
+	<select id="getMonitorInfo"   parameterType="com.woori.monitor.model.MonitorInfo"  resultType="com.woori.monitor.model.MonitorInfo">
+		select 
+			AgentID 			as agentId,
+			AgentName 			as agentName,
+			ATEnterpriseName 	as atEnterpriseName,
+			ATDescription 		as atDescription,
+			AgentSkillOrder 	as agentSkillOrder,
+			SkillGroupNumber 	as skillGroupNumber,
+			SkillGroupEngName 	as skillGroupEngName,
+			SkillGroupKorName 	as skillGroupKorName,
+			TotalCall 			as totalCall,
+			InCall 				as inCall,
+			OutCall 			as outCall,
+			TrnsCall 			as trnsCall,
+			CnfrCall 			as cnfrCall,
+			AbnCall 			as abnCall,
+			RonaCall 			as ronaCall,
+			LoginDateTime 		as loginDateTime,
+			LogoutDateTime 		as logoutDateTime,
+			LoggedOnTime 		as loggedOnTime,
+			CallsTalkTime 		as callsTalkTime,
+			OutCallsTalkTime 	as outCallsTalkTime,
+			AvailTime 			as availTime,
+			NRTime 				as nrTime,
+			WorkTime 			as workTime,
+			DtRgst 				as dtRgst
+		from 
+			CSTM_MST.dbo.T_RPT01
+			with(NOLOCK)
+			<include refid = "monitorInfoWhereStatement"/>
+	</select>
+	
+	<select id="getAllMonitorInfos"  resultType="com.woori.monitor.model.MonitorInfo">
+		select 
+			AgentID 			as agentId,
+			AgentName 			as agentName,
+			ATEnterpriseName 	as atEnterpriseName,
+			ATDescription 		as atDescription,
+			AgentSkillOrder 	as agentSkillOrder,
+			SkillGroupNumber 	as skillGroupNumber,
+			SkillGroupEngName 	as skillGroupEngName,
+			SkillGroupKorName 	as skillGroupKorName,
+			TotalCall 			as totalCall,
+			InCall 				as inCall,
+			OutCall 			as outCall,
+			TrnsCall 			as trnsCall,
+			CnfrCall 			as cnfrCall,
+			AbnCall 			as abnCall,
+			RonaCall 			as ronaCall,
+			LoginDateTime 		as loginDateTime,
+			LogoutDateTime 		as logoutDateTime,
+			LoggedOnTime 		as loggedOnTime,
+			CallsTalkTime 		as callsTalkTime,
+			OutCallsTalkTime 	as outCallsTalkTime,
+			AvailTime 			as availTime,
+			NRTime 				as nrTime,
+			WorkTime 			as workTime,
+			DtRgst 				as dtRgst
+		from 
+			CSTM_MST.dbo.T_RPT01
+			with(NOLOCK)
+		where ATEnterpriseName is not null order by AgentSkillOrder, AgentName
+	</select>
+	
+</mapper>
